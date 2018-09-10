@@ -76,7 +76,8 @@ const expressApp = (page) => {
         return
       }
       try {
-        await page.setContent(html)
+        // https://github.com/GoogleChrome/puppeteer/issues/728#issuecomment-334301491
+        await page.goto(`data:text/html,${html}`, { waitUntil: 'networkidle0' });
         const buff = await page.pdf(getPdfOption(req.body.pdf_option))
         res.status(200)
         res.contentType("application/pdf")
