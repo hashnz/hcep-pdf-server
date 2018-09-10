@@ -1,16 +1,20 @@
 const debug = require('debug')('hcepPdfOptions')
 const defaultMargin = process.env.HCEP_DEFAULT_MARGIN || '18mm'
 const defaultPdfOptionKey = process.env.HCEP_PDF_OPTION_KEY || 'A4'
+const printBackground = process.env.HCEP_PRINT_BACKGROUND || false
+const displayHeaderFooter = process.env.HCEP_DISPLAY_HEADER_FOOTER || false
 /**
  * PdfOption more detail
  * https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#pagepdfoptions
  */
 class PdfOption {
   constructor(options) {
-    this.format = options.format
+    this.format = options.format || 'A4'
     this.landscape = options.landscape || false
-    this.printBackground = (options.printBackground === undefined) ? false : options.printBackground
-    this.displayHeaderFooter = options.displayHeaderFooter || false
+    this.printBackground = (options.printBackground === undefined) ? printBackground : options.printBackground
+    this.displayHeaderFooter = options.displayHeaderFooter || displayHeaderFooter
+    this.headerTemplate = options.headerTemplate || ''
+    this.footerTemplate = options.footerTemplate || ''
     this.margin = {
       top: options.marginTop || options.margin || defaultMargin,
       right: options.marginRight || options.margin || defaultMargin,

@@ -156,6 +156,12 @@ default: 18mm
 #### HCEP_PDF_OPTION_KEY
 default: A4
 
+#### HCEP_PRINT_BACKGROUND
+default: false
+
+#### HCEP_DISPLAY_HEADER_FOOTER
+default: false
+
 ### Test settings
 #### HCEP_TEST_SERVER_URL
 default: 'http://localhost:8000'
