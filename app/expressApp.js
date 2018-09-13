@@ -76,6 +76,7 @@ const expressApp = (page) => {
         return
       }
       try {
+        await page.goto('data:text/html,<p>this prevents a caching bug</p>');
         // https://github.com/GoogleChrome/puppeteer/issues/728#issuecomment-334301491
         await page.goto(`data:text/html,${html}`, { waitUntil: 'networkidle0' });
         let options = getPdfOption(req.body.pdf_option)
