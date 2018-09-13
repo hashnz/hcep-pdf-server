@@ -85,6 +85,9 @@ const expressApp = (page) => {
         if (req.body.header_template) {
           options.headerTemplate = req.body.header_template;
         }
+        if (req.body.format) {
+          options.format = req.body.format;
+        }
         if (req.body.orientation && req.body.orientation === 'landscape') {
           options.landscape = true;
         }
