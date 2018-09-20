@@ -1,4 +1,4 @@
-const expressApp = (page) => {
+const expressApp = (browser) => {
   const bodyParser = require('body-parser')
   const debug = require('debug')('hcepPdfServer')
   const express = require('express')
@@ -42,6 +42,7 @@ const expressApp = (page) => {
         return
       }
       try {
+        const page = await browser.newPage()
         await page.goto(
           url, {
             timeout: pageTimeoutMsec,
@@ -49,6 +50,7 @@ const expressApp = (page) => {
           }
         )
         const buff = await page.pdf(getPdfOption(req.query.pdf_option))
+        page.close()
         res.status(200)
         res.contentType("application/pdf")
         res.send(buff)
@@ -76,7 +78,7 @@ const expressApp = (page) => {
         return
       }
       try {
-        await page.goto('data:text/html,<p>this prevents a caching bug</p>');
+        const page = await browser.newPage()
         // https://github.com/GoogleChrome/puppeteer/issues/728#issuecomment-334301491
         await page.goto(`data:text/html,${html}`, { waitUntil: 'networkidle0' });
         let options = getPdfOption(req.body.pdf_option)
@@ -93,6 +95,7 @@ const expressApp = (page) => {
           options.landscape = true;
         }
         const buff = await page.pdf(options)
+        page.close
         res.status(200)
         res.contentType("application/pdf")
         res.send(buff)
@@ -121,6 +124,7 @@ const expressApp = (page) => {
         return
       }
       try {
+        const page = await browser.newPage()
         await page.goto(
           url, {
             timeout: pageTimeoutMsec,
@@ -128,6 +132,7 @@ const expressApp = (page) => {
           }
         )
         const buff = await page.screenshot({ fullPage: true })
+        page.close()
         res.status(200)
         res.contentType("image/png")
         res.send(buff)
@@ -153,8 +158,10 @@ const expressApp = (page) => {
         return
       }
       try {
+        const page = await browser.newPage()
         await page.setContent(html)
         const buff = await page.screenshot({ fullPage: true })
+        page.close()
         res.status(200)
         res.contentType("image/png")
         res.send(buff)

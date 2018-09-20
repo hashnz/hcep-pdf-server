@@ -1,8 +1,8 @@
-const { hcPage } = require('./hcPage')
+const { hcBrowser } = require('./hcPage')
 const { expressApp } = require('./expressApp')
 
 const main = async () => {
-  const browserPage = await hcPage()
-  expressApp(browserPage)
+  const browser = await hcBrowser()
+  expressApp(browser)
 }
 main()

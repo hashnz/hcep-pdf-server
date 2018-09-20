@@ -1,4 +1,4 @@
-const hcPage = async () => {
+const hcBrowser = async () => {
   const puppeteer = require('puppeteer')
   const chromeBinary = process.env.HCEP_CHROME_BINARY || '/usr/bin/google-chrome'
   const launchOptions = (() => {
@@ -14,10 +14,8 @@ const hcPage = async () => {
     return options
   })()
   console.log('launchOptions:', launchOptions)
-  // launch browser and page only once
   const browser = await puppeteer.launch(launchOptions)
   const chromeVersion = await browser.version()
-  const page = browser.newPage()
   console.log("chromeVersion:", chromeVersion)
   /**
    * Close browser with exit signal.
@@ -30,6 +28,14 @@ const hcPage = async () => {
   }
   process.on('SIGINT', exitHandler)
   process.on('SIGTERM', exitHandler)
-  return page
+  return browser
 }
+
+const hcPage = async () => {
+  console.log('getting a page')
+  const browser = await hcBrowser()
+  return browser.newPage()
+}
+
+module.exports.hcBrowser = hcBrowser
 module.exports.hcPage = hcPage
